@@ -30,7 +30,7 @@ func read_frame(file *os.File, start int64) {
 	_, err := file.Seek(start, 1)
 	check(err)
 
-	//chunk, err := file.Read(buffer)
+	chunk, err := file.Read(buffer)
 	check(err)
 
 	// TODO - read chunk as bool array
