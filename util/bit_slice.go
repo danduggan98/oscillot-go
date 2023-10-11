@@ -1,11 +1,6 @@
 package util
 
-func Bool_to_int(b bool) int {
-	if b {
-		return 1
-	}
-	return 0
-}
+///// Bit manipulation \\\\\
 
 // Extract a particular bit from an integer
 func Nth_bit(n, data int) bool {
@@ -25,4 +20,30 @@ func Bit_slice(start, end, data int) []bool {
 	slice >>= start            // Move the slice back to the end
 
 	return bit_array
+}
+
+///// Formatting \\\\\
+
+func Bit_to_string(b bool) string {
+	if b {
+		return "1"
+	}
+	return "0"
+}
+
+func Bit_to_int(b bool) int {
+	if b {
+		return 1
+	}
+	return 0
+}
+
+func Bit_array_to_string(arr []bool) string {
+	str := ""
+
+	for _, v := range arr {
+		str += Bit_to_string(v)
+	}
+
+	return str
 }
