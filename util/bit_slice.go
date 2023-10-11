@@ -9,12 +9,13 @@ func Bool_to_int(b bool) int {
 
 // Extract a particular bit from an integer
 func Nth_bit(n, data int) bool {
-	return false
+	mask := 1 << (31 - n)
+	bit := data & mask
+	return bit > 0
 }
 
 // Extract a section of bits from an integer
 func Bit_slice(start, end, data int) []bool {
-
 	slice_size := end - start + 1
 	bit_array := make([]bool, slice_size)
 
