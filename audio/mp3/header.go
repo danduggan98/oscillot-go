@@ -56,3 +56,8 @@ type Header struct {
 	//  - 11 = CCITT J.17
 	Emphasis [2]bool
 }
+
+// TODO - extract individual bits
+func parse(bits uint32) Header {
+
+}

@@ -24,7 +24,7 @@ func TestBitSlice(t *testing.T) {
 
 	data := 0xFEC8FEC8 // 1111 1110 1100 1000 1111 1110 1100 1000
 
-	ones_slice := Bit_slice(0, 6, data)
+	ones_slice := Bit_slice(4, 6, data)
 	for _, v := range ones_slice {
 		if !v {
 			t.Fatalf("Bits should be all ones, but found a zero: " + Bit_array_to_string(ones_slice))
