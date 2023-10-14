@@ -12,9 +12,17 @@ func NthBit(n, data int) bool {
 
 // Extract a section of bits from an integer
 func BitSlice(start, end, data int) []bool {
+	if end < start {
+		panic("Invalid slice indices")
+
+	} else if start == end {
+		return []bool{NthBit(start, data)}
+	}
+
 	shifted_bits := data >> (31 - end) // Shift the desired bits to the end
 	mask := (1 << start) - 1           // Create a string of 1s the length of our section
 	slice := shifted_bits & mask       // Isolate the desired bits
+
 	// TODO - THIS MASK BECOMES ALL ZEROS WHEN START IS 0
 	slice_len := (end - start) + 1
 	slice_idx := 32 - slice_len
