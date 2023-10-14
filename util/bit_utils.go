@@ -19,20 +19,20 @@ func BitSlice(start, end, data int) []bool {
 		return []bool{NthBit(start, data)}
 	}
 
-	shifted_bits := data >> (31 - end) // Shift the desired bits to the end
-	mask := (1 << start) - 1           // Create a string of 1s the length of our section
-	slice := shifted_bits & mask       // Isolate the desired bits
-
-	// TODO - THIS MASK BECOMES ALL ZEROS WHEN START IS 0
 	slice_len := (end - start) + 1
+
+	shifted_bits := data >> (31 - end) // Shift the desired bits to the end
+	mask := (1 << slice_len) - 1       // Create a string of 1s the length of our section
+	bits := shifted_bits & mask        // Isolate the desired bits
+
 	slice_idx := 32 - slice_len
-	bit_array := make([]bool, slice_len)
+	slice := make([]bool, slice_len)
 
 	for i := 0; i < slice_len; i++ {
-		next_bit := NthBit(slice_idx+i, slice)
-		bit_array[i] = next_bit
+		next_bit := NthBit(slice_idx+i, bits)
+		slice[i] = next_bit
 	}
-	return bit_array
+	return slice
 }
 
 func ToBits(data int) []bool {
