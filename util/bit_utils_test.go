@@ -24,6 +24,10 @@ func TestBitSlice(t *testing.T) {
 
 	data := 0xFEC8FEC8 // 1111 1110 1100 1000 1111 1110 1100 1000
 
+	if !BitSlice(0, 0, data)[0] {
+		t.Fatalf("Bits should be one, but was zero")
+	}
+
 	front_slice := BitSlice(0, 4, data)
 	for _, v := range front_slice {
 		if !v {
@@ -58,8 +62,8 @@ func TestEquals(t *testing.T) {
 	a := 0xFEC8FEC8
 	b := 0xFEC8FEC8
 
-	fmt.Println(BitArrayToString(ToBits(a)))
-	fmt.Println(BitArrayToString(ToBits(b)))
+	//fmt.Println(BitArrayToString(ToBits(a)))
+	//fmt.Println(BitArrayToString(ToBits(b)))
 
 	if !Equals(ToBits(a), ToBits(b)) {
 		t.Fatalf("bits should be equal")
@@ -67,8 +71,8 @@ func TestEquals(t *testing.T) {
 
 	a >>= 1
 
-	fmt.Println(BitArrayToString(ToBits(a)))
-	fmt.Println(BitArrayToString(ToBits(b)))
+	//fmt.Println(BitArrayToString(ToBits(a)))
+	//fmt.Println(BitArrayToString(ToBits(b)))
 
 	if Equals(ToBits(a), ToBits(b)) {
 		t.Fatalf("bits should not be equal")
