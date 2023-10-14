@@ -24,6 +24,13 @@ func TestBitSlice(t *testing.T) {
 
 	data := 0xFEC8FEC8 // 1111 1110 1100 1000 1111 1110 1100 1000
 
+	front_slice := BitSlice(0, 4, data)
+	for _, v := range front_slice {
+		if !v {
+			t.Fatalf("Bits should be all ones, but found a zero: " + BitArrayToString(front_slice))
+		}
+	}
+
 	ones_slice := BitSlice(4, 6, data)
 	for _, v := range ones_slice {
 		if !v {
@@ -35,6 +42,13 @@ func TestBitSlice(t *testing.T) {
 	for _, v := range zeros_slice {
 		if v {
 			t.Fatalf("Bits should be all zeros, but found a one: " + BitArrayToString(zeros_slice))
+		}
+	}
+
+	end_slice := BitSlice(29, 31, data)
+	for _, v := range end_slice {
+		if v {
+			t.Fatalf("Bits should be all zeros, but found a one: " + BitArrayToString(end_slice))
 		}
 	}
 }
