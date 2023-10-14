@@ -3,39 +3,59 @@ package util
 ///// Bit manipulation \\\\\
 // TODO - these only work with 32 bit ints - provide a more generic method for other types
 
+type BitError struct {
+	msg string
+}
+
+func (e *BitError) Error() string {
+	return "bit manipulation error: " + e.msg
+}
+
 // Extract a particular bit from an integer
-func NthBit(n, data int) bool {
-	mask := 1 << (31 - n) // Move a single 1 to the position of our bit
-	bit := data & mask    // Isolate the bit
-	return bit != 0       // Convert to bool
+func NthBit(n, data int) (bool, error) {
+	if n > 31 {
+		return false, &BitError{"index out of range"}
+	}
+
+	mask := 1 << (31 - n)  // Move a one onto the desired bit
+	bit := data & mask     // Isolate the bit
+	return (bit != 0), nil // Convert to bool
 }
 
 // Extract a section of bits from an integer
-func BitSlice(start, end, data int) []bool {
+func BitSlice(start, end, data int) ([]bool, error) {
 	if end < start {
-		panic("Invalid slice indices")
+		return nil, &BitError{"start index exceeds end index"}
 
 	} else if start == end {
-		return []bool{NthBit(start, data)}
+		bit, err := NthBit(start, data)
+
+		if err != nil {
+			return nil, err
+		}
+		return []bool{bit}, nil
 	}
 
-	slice_len := (end - start) + 1
+	sliceLen := (end - start) + 1
+	slice := make([]bool, sliceLen)
 
-	shifted_bits := data >> (31 - end) // Shift the desired bits to the end
-	mask := (1 << slice_len) - 1       // Create a string of 1s the length of our section
-	bits := shifted_bits & mask        // Isolate the desired bits
+	bits := data >> (31 - end)  // Shift the desired bits to the end
+	mask := (1 << sliceLen) - 1 // Create a string of 1s the length of our section
+	bits &= mask                // Isolate the desired bits
 
-	slice_idx := 32 - slice_len
-	slice := make([]bool, slice_len)
+	for i := 0; i < sliceLen; i++ {
+		nextBit, err := NthBit(32-sliceLen+i, bits)
 
-	for i := 0; i < slice_len; i++ {
-		next_bit := NthBit(slice_idx+i, bits)
-		slice[i] = next_bit
+		if err != nil {
+			return nil, err
+		}
+		slice[i] = nextBit
 	}
-	return slice
+
+	return slice, nil
 }
 
-func ToBits(data int) []bool {
+func ToBits(data int) ([]bool, error) {
 	return BitSlice(0, 31, data)
 }
 
