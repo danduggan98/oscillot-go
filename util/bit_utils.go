@@ -3,37 +3,24 @@ package util
 ///// Bit manipulation \\\\\
 // TODO - these only work with 32 bit ints - provide a more generic method for other types
 
-type BitError struct {
-	msg string
-}
-
-func (e *BitError) Error() string {
-	return "bit manipulation error: " + e.msg
-}
-
 // Extract a particular bit from an integer
-func NthBit(n, data int) (bool, error) {
+func NthBit(n, data int) bool {
 	if n > 31 {
-		return false, &BitError{"index out of range"}
+		panic("index out of range")
 	}
 
-	mask := 1 << (31 - n)  // Move a one onto the desired bit
-	bit := data & mask     // Isolate the bit
-	return (bit != 0), nil // Convert to bool
+	mask := 1 << (31 - n) // Move a one onto the desired bit
+	bit := data & mask    // Isolate the bit
+	return bit != 0       // Convert to bool
 }
 
 // Extract a section of bits from an integer
-func BitSlice(start, end, data int) ([]bool, error) {
+func BitSlice(start, end, data int) []bool {
 	if end < start {
-		return nil, &BitError{"start index exceeds end index"}
+		panic("start index exceeds end index")
 
 	} else if start == end {
-		bit, err := NthBit(start, data)
-
-		if err != nil {
-			return nil, err
-		}
-		return []bool{bit}, nil
+		return []bool{NthBit(start, data)}
 	}
 
 	sliceLen := (end - start) + 1
@@ -44,18 +31,13 @@ func BitSlice(start, end, data int) ([]bool, error) {
 	bits &= mask                // Isolate the desired bits
 
 	for i := 0; i < sliceLen; i++ {
-		nextBit, err := NthBit(32-sliceLen+i, bits)
-
-		if err != nil {
-			return nil, err
-		}
+		nextBit := NthBit(32-sliceLen+i, bits)
 		slice[i] = nextBit
 	}
-
-	return slice, nil
+	return slice
 }
 
-func ToBits(data int) ([]bool, error) {
+func ToBits(data int) []bool {
 	return BitSlice(0, 31, data)
 }
 
