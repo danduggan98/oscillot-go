@@ -2,8 +2,6 @@ package mp3
 
 import "github.com/danduggan98/oscillot-go/util"
 
-// TODO - change case of all these to eliminate underscores
-// TODO - clean up doc comments
 type Header struct {
 	// Fixed value used as a searchable entry point to the stream (12 bits)
 	SyncWord []bool
