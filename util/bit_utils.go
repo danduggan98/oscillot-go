@@ -15,24 +15,18 @@ func NthBit(n, data int) bool {
 }
 
 // Extract a section of bits from an integer
-func BitSlice(start, end, data int) []bool {
-	if end < start {
-		panic("start index exceeds end index")
-
-	} else if start == end {
+func BitSlice(start, len, data int) []bool {
+	if start < 0 || start+len > 32 {
+		panic("bit slice index out of range")
+	} else if len == 1 {
 		return []bool{NthBit(start, data)}
 	}
 
-	sliceLen := (end - start) + 1
-	slice := make([]bool, sliceLen)
+	bits := data << start
 
-	bits := data >> (31 - end)  // Shift the desired bits to the end
-	mask := (1 << sliceLen) - 1 // Create a string of 1s the length of our section
-	bits &= mask                // Isolate the desired bits
-
-	for i := 0; i < sliceLen; i++ {
-		nextBit := NthBit(32-sliceLen+i, bits)
-		slice[i] = nextBit
+	slice := make([]bool, len)
+	for i := 0; i < len; i++ {
+		slice[i] = NthBit(i, bits)
 	}
 	return slice
 }

@@ -63,18 +63,18 @@ type Header struct {
 
 func ParseHeader(bits int) Header {
 	return Header{
-		SyncWord:        util.BitSlice(0, 11, bits),
+		SyncWord:        util.BitSlice(0, 12, bits),
 		Version:         util.NthBit(12, bits),
-		Layer:           util.BitSlice(13, 14, bits),
+		Layer:           util.BitSlice(13, 2, bits),
 		ErrorProtection: util.NthBit(15, bits),
-		BitRate:         util.BitSlice(16, 19, bits),
-		Frequency:       util.BitSlice(20, 21, bits),
+		BitRate:         util.BitSlice(16, 4, bits),
+		Frequency:       util.BitSlice(20, 2, bits),
 		PaddingBit:      util.NthBit(22, bits),
 		PrivacyBit:      util.NthBit(23, bits),
-		Mode:            util.BitSlice(24, 25, bits),
-		ModeExtension:   util.BitSlice(26, 27, bits),
+		Mode:            util.BitSlice(24, 2, bits),
+		ModeExtension:   util.BitSlice(26, 2, bits),
 		Copyrighted:     util.NthBit(28, bits),
 		Original:        util.NthBit(29, bits),
-		Emphasis:        util.BitSlice(30, 31, bits),
+		Emphasis:        util.BitSlice(30, 2, bits),
 	}
 }
