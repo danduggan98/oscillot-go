@@ -2,8 +2,6 @@ package audio
 
 import (
 	"os"
-
-	"github.com/danduggan98/oscillot-go/audio/mp3"
 )
 
 func check(e error) {
@@ -25,12 +23,12 @@ func read_file(path string) {
 }
 
 func read_frame(file *os.File, start int64) {
-	buffer := make([]byte, mp3.FRAME_SIZE_BYTES)
+	//buffer := make([]byte, mp3.FRAME_SIZE_BYTES)
 
 	_, err := file.Seek(start, 1)
 	check(err)
 
-	chunk, err := file.Read(buffer)
+	//chunk, err := file.Read(buffer)
 	check(err)
 
 	// TODO - read chunk as bool array
