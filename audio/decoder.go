@@ -2,35 +2,26 @@ package audio
 
 import (
 	"os"
+
+	"github.com/danduggan98/oscillot-go/audio/mp3"
 )
 
-func check(e error) {
-	if e != nil {
-		panic(e)
-	}
-}
-
-func decode() {
-	// TODO
-}
-
-func read_file(path string) {
+// TODO
+func ReadFile(path string) (*os.File, error) {
 	file, err := os.Open(path)
-	check(err)
 
-	read_frame(file, 0) // TODO - extract in chunks
-	file.Close()
+	if err != nil {
+		return nil, err
+	}
+	return file, nil
 }
 
-func read_frame(file *os.File, start int64) {
-	//buffer := make([]byte, mp3.FRAME_SIZE_BYTES)
+// Seek to the first frame in the file
+// TODO
+func FindFrame(file *os.File) int { return 0 }
 
-	_, err := file.Seek(start, 1)
-	check(err)
-
-	//chunk, err := file.Read(buffer)
-	check(err)
-
-	// TODO - read chunk as bool array
-	// TODO - convert to Frame object
+// Parse the frame starting at a particular byte
+// TODO
+func ReadFrame(file *os.File, start int) *mp3.Frame {
+	return nil
 }

@@ -2,6 +2,7 @@ package mp3
 
 import "github.com/danduggan98/oscillot-go/util"
 
+// TODO - cross check this with the other sources
 type Header struct {
 	// Fixed value used as a searchable entry point to the stream (12 bits)
 	SyncWord []bool
@@ -59,8 +60,8 @@ type Header struct {
 	Emphasis []bool
 }
 
-func ParseHeader(bits int) Header {
-	return Header{
+func ParseHeader(bits int) *Header {
+	return &Header{
 		SyncWord:        util.BitSlice(0, 12, bits),
 		Version:         util.NthBit(12, bits),
 		Layer:           util.BitSlice(13, 2, bits),
