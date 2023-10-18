@@ -13,13 +13,13 @@ func TestParseHeader(t *testing.T) {
 	if h.SyncWord != 0b0111111111111 {
 		t.Fatalf("sync word should be 111111111111 but was %b", h.SyncWord)
 	}
-	if h.Version == 0b0 {
+	if h.Version != 0b1 {
 		t.Fatalf("version bit should be 1 but got 0")
 	}
 	if h.Layer != 0b01 {
 		t.Fatalf("layer should be 01 but got %b", h.Layer)
 	}
-	if h.ErrorProtection == 0b0 {
+	if h.ErrorProtection != 0b1 {
 		t.Fatalf("error protection bit should be 1 but got 0")
 	}
 	if h.BitRate != 0b1010 {
@@ -28,10 +28,10 @@ func TestParseHeader(t *testing.T) {
 	if h.Frequency != 0b00 {
 		t.Fatalf("frequency should be 00 but got %b", h.Frequency)
 	}
-	if h.PaddingBit == 0b1 {
+	if h.PaddingBit != 0b0 {
 		t.Fatalf("padding bit should be 0 but got 1")
 	}
-	if h.PrivacyBit == 0b1 {
+	if h.PrivacyBit != 0b0 {
 		t.Fatalf("version bit should be 0 but got 1")
 	}
 	if h.Mode != 0b01 {
