@@ -22,12 +22,15 @@ func NthBit(n, data int) int {
 // - slice off front bits
 // - return as int
 func BitSlice(start, len, data int) int {
-	if start < 0 || start+len > 32 {
+	end := start + len
+
+	if start < 0 || end > 32 {
 		panic("bit slice index out of range")
 	} else if len == 1 {
 		return NthBit(start, data)
 	}
 
-	// TODO
-	return 0
+	bits := data >> (32 - end)
+	mask := (1 << len) - 1
+	return bits & mask
 }

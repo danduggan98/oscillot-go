@@ -22,7 +22,7 @@ func TestParseHeader(t *testing.T) {
 	if h.ErrorProtection == 0b0 {
 		t.Fatalf("error protection bit should be 1 but got 0")
 	}
-	if h.BitRate == 0b1010 {
+	if h.BitRate != 0b1010 {
 		t.Fatalf("bit rate should be 1010 but got %b", h.BitRate)
 	}
 	if h.Frequency != 0b00 {
@@ -37,16 +37,16 @@ func TestParseHeader(t *testing.T) {
 	if h.Mode != 0b01 {
 		t.Fatalf("mode should be 01 but got %b", h.Mode)
 	}
-	if h.ModeExtension == 0b00 {
+	if h.ModeExtension != 0b00 {
 		t.Fatalf("mode extension should be 00 but got %b", h.ModeExtension)
 	}
-	if h.Copyrighted == 0b1 {
+	if h.Copyrighted != 0b0 {
 		t.Fatalf("copyright bit should be 0 but got 1")
 	}
-	if h.PrivacyBit == 0b1 {
+	if h.PrivacyBit != 0b0 {
 		t.Fatalf("privacy bit should be 0 but got 1")
 	}
-	if h.Emphasis == 0b00 {
+	if h.Emphasis != 0b00 {
 		t.Fatalf("emphasis should be 00 but got %b", h.Emphasis)
 	}
 }
