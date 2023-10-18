@@ -11,9 +11,8 @@ func NthBit(n, data int) int {
 		panic("index out of range")
 	}
 
-	mask := 1 << (31 - n) // Move a one onto the desired bit
-	bit := data & mask    // Isolate the bit
-	return bit >> n       // Convert to int
+	bit := data >> (31 - n)
+	return bit & 0b1
 }
 
 // Extract a section of bits from an integer
