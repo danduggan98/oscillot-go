@@ -15,8 +15,8 @@ func TestNthBit(t *testing.T) {
 	thirdBit := util.NthBit(8, data)
 	fourthBit := util.NthBit(15, data)
 
-	if !firstBit || secondBit || !thirdBit || fourthBit {
-		givenBits := fmt.Sprintf("%d %d %d %d", util.BitToInt(firstBit), util.BitToInt(secondBit), util.BitToInt(thirdBit), util.BitToInt(fourthBit))
+	if firstBit == 0 || secondBit == 1 || thirdBit == 0 || fourthBit == 1 {
+		givenBits := fmt.Sprintf("%d %d %d %d", firstBit, secondBit, thirdBit, fourthBit)
 		t.Fatalf("Bits should be 1 0 1 0, but got " + givenBits)
 	}
 }
@@ -25,53 +25,27 @@ func TestBitSlice(t *testing.T) {
 	data := 0xFEC8FEC8 // 1111 1110 1100 1000 1111 1110 1100 1000
 
 	firstBit := util.BitSlice(0, 1, data)
-	if len(firstBit) == 0 || !firstBit[0] {
-		t.Fatalf("Bit should be one, but was %v", util.BitArrayToString(firstBit))
+	if firstBit == 0b0 {
+		t.Fatalf("Bit should be 1, but was %b", firstBit)
 	}
 
-	frontSlice := util.BitSlice(0, 5, data)
-	for _, v := range frontSlice {
-		if !v {
-			t.Fatalf("Bits should be all ones, but found a zero: " + util.BitArrayToString(frontSlice))
-		}
+	firstSlice := util.BitSlice(0, 5, data)
+	if firstSlice != 0b11111 {
+		t.Fatalf("Slice should be 11111, but was %b", firstSlice)
 	}
 
-	onesSlice := util.BitSlice(4, 3, data)
-	for _, v := range onesSlice {
-		if !v {
-			t.Fatalf("Bits should be all ones, but found a zero: " + util.BitArrayToString(onesSlice))
-		}
+	secondSlice := util.BitSlice(4, 4, data)
+	if secondSlice != 0b1110 {
+		t.Fatalf("Slice should be 1110, but was %b", secondSlice)
 	}
 
-	zerosSlice := util.BitSlice(13, 3, data)
-	for _, v := range zerosSlice {
-		if v {
-			t.Fatalf("Bits should be all zeros, but found a one: " + util.BitArrayToString(zerosSlice))
-		}
+	thirdSlice := util.BitSlice(13, 6, data)
+	if thirdSlice != 0b000111 {
+		t.Fatalf("Slice should be 000111, but was %b", thirdSlice)
 	}
 
 	endSlice := util.BitSlice(29, 3, data)
-	for _, v := range endSlice {
-		if v {
-			t.Fatalf("Bits should be all zeros, but found a one: " + util.BitArrayToString(endSlice))
-		}
-	}
-}
-
-func TestEquals(t *testing.T) {
-	a := 0xFEC8FEC8
-	b := 0xFEC8FEC8
-	aBits := util.ToBits(a)
-	bBits := util.ToBits(b)
-
-	if !util.Equals(aBits, bBits) {
-		t.Fatalf("bits should be equal")
-	}
-
-	a >>= 1
-	aBits = util.ToBits(a)
-
-	if util.Equals(aBits, bBits) {
-		t.Fatalf("bits should not be equal")
+	if endSlice != 0b000 {
+		t.Fatalf("Slice should be 000, but was %b ", endSlice)
 	}
 }
