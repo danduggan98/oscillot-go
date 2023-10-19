@@ -2,6 +2,33 @@ package mp3
 
 import "github.com/danduggan98/oscillot-go/util"
 
+// Bit rate -> MPEG version -> Layer
+var bitRateTable = [][][]int{
+	{{1, 2, 3}, {1, 2}}, // 0000
+	{{1, 2, 3}, {1, 2}}, // 0001
+	{{1, 2, 3}, {1, 2}}, // 0010
+	{{1, 2, 3}, {1, 2}}, // 0011
+	{{1, 2, 3}, {1, 2}}, // 0100
+	{{1, 2, 3}, {1, 2}}, // 0101
+	{{1, 2, 3}, {1, 2}}, // 0111
+	{{1, 2, 3}, {1, 2}}, // 1000
+	{{1, 2, 3}, {1, 2}}, // 1001
+	{{1, 2, 3}, {1, 2}}, // 1010
+	{{1, 2, 3}, {1, 2}}, // 1011
+	{{1, 2, 3}, {1, 2}}, // 1100
+	{{1, 2, 3}, {1, 2}}, // 1101
+	{{1, 2, 3}, {1, 2}}, // 1110
+	{{1, 2, 3}, {1, 2}}, // 1111
+}
+
+// Sample rate -> MPEG version -> Frequency
+var sampleRateTable = [][]int{
+	{44100, 22050, 11025},
+	{48000, 24000, 12000},
+	{32000, 16000, 8000},
+	{0, 0, 0}, // reserved
+}
+
 // TODO - cross check this with the other sources
 type Header struct {
 	// Fixed value used as a searchable entry point to the stream (12 bits)
@@ -78,39 +105,22 @@ func ParseHeader(bits int) *Header {
 	}
 }
 
-// TODO - helper methods
-
-// TODO - make this work
-// IDEA - this could be a tree, similar to a huffman code
-// 0 = left child, 1 = right
-// traverse tree by reading bits left to right
-// store values at equvalent places
-// initial split at root is between versions
-// nah jk it's a 3D array
-var bitRateTable = [][]int{ // TODO
-	{1, 2}, // 0000
-}
-
-// TODO
 func (h Header) CalculateBitrate() int {
-	// [bitrate bits][version][layer] = bitrate
-	//////////// TODO - convert bits, layer and version to index
-	// bits = 0-15, layer = 0-3, ver = 0-1
+	layer_idx := 0
 
-	return 0
-	//return bitRateTable[][]
+	if h.Version == 1 {
+		layer_idx = 4 - h.Layer
+	} else {
+		if h.Layer < 0b11 {
+			layer_idx = 1
+		} else {
+			layer_idx = 0
+		}
+	}
+
+	return bitRateTable[h.BitRate][h.Version][layer_idx]
 }
 
-var sampleRateTable = [][]int{
-	{44100, 22050, 11025},
-	{48000, 24000, 12000},
-	{32000, 16000, 8000},
-	{0, 0, 0}, // reserved
-}
-
-// TODO
 func (h Header) CalculateSampleRate() int {
-	// [frequency][layer] = sample rate
-	return 0
-	//return sampleRateTable[][]
+	return sampleRateTable[h.Frequency][h.Version^1]
 }

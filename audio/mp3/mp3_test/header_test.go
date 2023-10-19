@@ -6,10 +6,10 @@ import (
 	"github.com/danduggan98/oscillot-go/audio/mp3"
 )
 
-func TestParseHeader(t *testing.T) {
-	bits := 0xFFFBA040 // Example from MP3 Wikipedia article
-	h := mp3.ParseHeader(bits)
+var bits int = 0xFFFBA040 // Example from MP3 Wikipedia article
+var h *mp3.Header = mp3.ParseHeader(bits)
 
+func TestParseHeader(t *testing.T) {
 	if h.SyncWord != 0b0111111111111 {
 		t.Fatalf("sync word should be 111111111111 but was %b", h.SyncWord)
 	}
@@ -48,5 +48,19 @@ func TestParseHeader(t *testing.T) {
 	}
 	if h.Emphasis != 0b00 {
 		t.Fatalf("emphasis should be 00 but got %b", h.Emphasis)
+	}
+}
+
+func TestCalculateBitRate(t *testing.T) {
+	bitRate := h.CalculateBitrate()
+	if bitRate != 160 {
+		t.Fatalf("bit rate should be 160 but got %d", bitRate)
+	}
+}
+
+func TestCalculateSampleRate(t *testing.T) {
+	sampleRate := h.CalculateSampleRate()
+	if sampleRate != 44100 {
+		t.Fatalf("sample rate should be 160 but got %d", sampleRate)
 	}
 }
