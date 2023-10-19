@@ -30,6 +30,13 @@ var sampleRateTable = [][]int{
 	{0, 0, 0},             // 11 (reserved)
 }
 
+var modeExtensionTable = [][]bool{
+	{false, false},
+	{true, false},
+	{false, true},
+	{true, true},
+}
+
 // TODO - cross check this with the other sources
 type Header struct {
 	// Fixed value used as a searchable entry point to the stream (12 bits)
@@ -124,4 +131,9 @@ func (h Header) CalculateBitrate() int {
 
 func (h Header) CalculateSampleRate() int {
 	return sampleRateTable[h.Frequency][h.Version^1]
+}
+
+func (h Header) CalculateModeExtension() (bool, bool) {
+	tableEntry := modeExtensionTable[h.ModeExtension]
+	return tableEntry[0], tableEntry[1]
 }

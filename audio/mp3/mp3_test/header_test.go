@@ -64,3 +64,10 @@ func TestCalculateSampleRate(t *testing.T) {
 		t.Fatalf("sample rate should be 160 but got %d", sampleRate)
 	}
 }
+
+func TestCalculateModeExtension(t *testing.T) {
+	iStereo, msStereo := h.CalculateModeExtension()
+	if iStereo || msStereo {
+		t.Fatalf("mode extension should be false false but got %v %v", iStereo, msStereo)
+	}
+}
