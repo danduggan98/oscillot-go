@@ -1,7 +1,8 @@
 package mp3
 
-const FRAME_SIZE_BYTES = 418
+const FRAME_SIZE_BYTES = 418 // 384?
 
+// GOAL - be able to parse a frame directly
 type Frame struct {
 	// Frame header (32 bits)
 	Header Header
@@ -25,4 +26,9 @@ func ParseFrame(data int) *Frame {
 		CRC:      *ParseCRC(data),
 		SideInfo: *ParseSideInfo(data),
 	}
+}
+
+func (f Frame) FrameLength() int {
+	ratio := f.Header.CalculateBitrate() / f.Header.CalculateSampleRate()
+	return 144*ratio + f.Header.PaddingBit
 }

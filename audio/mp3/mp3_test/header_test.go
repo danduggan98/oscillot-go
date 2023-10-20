@@ -61,7 +61,7 @@ func TestCalculateBitRate(t *testing.T) {
 func TestCalculateSampleRate(t *testing.T) {
 	sampleRate := h.CalculateSampleRate()
 	if sampleRate != 44100 {
-		t.Fatalf("sample rate should be 160 but got %d", sampleRate)
+		t.Fatalf("sample rate should be 44100 Hz but got %d", sampleRate)
 	}
 }
 

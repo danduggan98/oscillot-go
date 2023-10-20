@@ -1,7 +1,5 @@
 package util
 
-///// Bit manipulation \\\\\
-
 // Extract a particular bit from an integer
 func NthBit(n, data int) int {
 	if n > 31 {
