@@ -137,3 +137,7 @@ func (h Header) CalculateModeExtension() (bool, bool) {
 	tableEntry := modeExtensionTable[h.ModeExtension]
 	return tableEntry[0], tableEntry[1]
 }
+
+func (h Header) isStereo() bool {
+	return h.Mode < 0b11
+}

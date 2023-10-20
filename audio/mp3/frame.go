@@ -1,6 +1,6 @@
 package mp3
 
-const FRAME_SIZE_BYTES = 418 // 384?
+const FRAME_SIZE = 384 // # samples
 
 // GOAL - be able to parse a frame directly
 type Frame struct {
@@ -21,10 +21,12 @@ type Frame struct {
 }
 
 func ParseFrame(data int) *Frame {
+	header := ParseHeader(data)
+
 	return &Frame{
-		Header:   *ParseHeader(data),
+		Header:   *header,
 		CRC:      *ParseCRC(data),
-		SideInfo: *ParseSideInfo(data),
+		SideInfo: *ParseSideInfo(data, header.isStereo()),
 	}
 }
 
