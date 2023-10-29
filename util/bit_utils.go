@@ -1,7 +1,7 @@
 package util
 
 // Extract a particular bit from an integer
-func NthBit(n, data int) int {
+func NthBit(n, data uint32) uint32 {
 	if n > 31 {
 		panic("index out of range")
 	}
@@ -11,16 +11,16 @@ func NthBit(n, data int) int {
 }
 
 // Extract a section of bits from an integer
-func BitSlice(start, len, data int) int {
+func BitSlice(start, len, data uint32) uint32 {
 	end := start + len
 
-	if start < 0 || end > 32 {
+	if end > 32 {
 		panic("bit slice index out of range")
 	} else if len == 1 {
 		return NthBit(start, data)
 	}
 
 	bits := data >> (32 - end)
-	mask := (1 << len) - 1
+	var mask uint32 = (1 << len) - 1
 	return bits & mask
 }

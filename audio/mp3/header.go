@@ -3,7 +3,7 @@ package mp3
 import "github.com/danduggan98/oscillot-go/util"
 
 // Bit rate -> MPEG version -> Layer
-var bitRateTable = [][][]int{
+var bitRateTable = [][][]uint32{
 	{{0, 0, 0}, {0, 0}},           // 0000 (free)
 	{{32, 32, 32}, {32, 8}},       // 0001
 	{{64, 48, 40}, {48, 16}},      // 0010
@@ -23,7 +23,7 @@ var bitRateTable = [][][]int{
 }
 
 // Sample rate -> MPEG version -> Frequency
-var sampleRateTable = [][]int{
+var sampleRateTable = [][]uint32{
 	{44100, 22050, 11025}, // 00
 	{48000, 24000, 12000}, // 01
 	{32000, 16000, 8000},  // 10
@@ -39,63 +39,63 @@ var modeExtensionTable = [][]bool{
 
 // TODO - cross check this with the other sources
 type Header struct {
-	// Fixed value used as a searchable entry point to the stream (12 bits)
-	SyncWord int
+	// Fixed value used as a searchable entry pouint32 to the stream (12 bits)
+	SyncWord uint32
 
 	// Specifies the MPEG version (1 bit)
 	//  - 1 = MPEG-1
 	//	- 0 = MPEG-2
-	Version int
+	Version uint32
 
 	// Specifies ..... something (2 bits)
 	//  - 00 = Reserved
 	//  - 01 = Layer 3
 	//  - 10 = Layer 2
 	//  - 11 = Layer 1
-	Layer int
+	Layer uint32
 
 	// If set, CRC is used for correction (1 bit)
-	ErrorProtection int
+	ErrorProtection uint32
 
 	// The bit rate used to encode the frame (4 bits)
-	BitRate int
+	BitRate uint32
 
 	// Sampling frequency (2 bits)
-	Frequency int
+	Frequency uint32
 
 	// Fills extra frame space for streams with 128 kbit/s and 44100 Hz (1 bit)
-	PaddingBit int
+	PaddingBit uint32
 
 	// Triggers application-specific behavior (1 bit)
-	PrivacyBit int
+	PrivacyBit uint32
 
 	// Channel mode (2 bits)
 	//  - 00 = Stereo
-	//  - 01 = Joint stereo
+	//  - 01 = Jouint32 stereo
 	//  - 10 = Dual channel
 	//  - 11 = Single channel
-	Mode int
+	Mode uint32
 
-	// Specifies which methods to use in joint stereo mode (2 bits)
+	// Specifies which methods to use in jouint32 stereo mode (2 bits)
 	//  - First bit = MS stereo on/off
-	//  - Second bit = Intensity stereo on/off
-	ModeExtension int
+	//  - Second bit = uint32ensity stereo on/off
+	ModeExtension uint32
 
 	// Specifies if the file is copyrighted (1 bit)
-	Copyrighted int
+	Copyrighted uint32
 
 	// Indicates something ... (1 bit)
-	Original int
+	Original uint32
 
 	// Indicates that the file requires equalization (2 bits)
 	//  - 00 = None
 	//  - 01 = 50/15 ms
 	//  - 10 = Reserved
 	//  - 11 = CCITT J.17
-	Emphasis int
+	Emphasis uint32
 }
 
-func ParseHeader(bits int) *Header {
+func ParseHeader(bits uint32) *Header {
 	return &Header{
 		SyncWord:        util.BitSlice(0, 12, bits),
 		Version:         util.NthBit(12, bits),
@@ -113,8 +113,8 @@ func ParseHeader(bits int) *Header {
 	}
 }
 
-func (h Header) CalculateBitrate() int {
-	layer_idx := 0
+func (h Header) CalculateBitrate() uint32 {
+	var layer_idx uint32 = 0
 
 	if h.Version == 1 {
 		layer_idx = 3 - h.Layer
@@ -129,7 +129,7 @@ func (h Header) CalculateBitrate() int {
 	return bitRateTable[h.BitRate][h.Version^1][layer_idx]
 }
 
-func (h Header) CalculateSampleRate() int {
+func (h Header) CalculateSampleRate() uint32 {
 	return sampleRateTable[h.Frequency][h.Version^1]
 }
 

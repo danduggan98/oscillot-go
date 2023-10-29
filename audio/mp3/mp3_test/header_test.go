@@ -6,7 +6,7 @@ import (
 	"github.com/danduggan98/oscillot-go/audio/mp3"
 )
 
-var bits int = 0xFFFBA040 // Example from MP3 Wikipedia article
+var bits uint32 = 0xFFFBA040 // Example from MP3 Wikipedia article
 var h *mp3.Header = mp3.ParseHeader(bits)
 
 func TestParseHeader(t *testing.T) {

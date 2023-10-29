@@ -8,7 +8,7 @@ import (
 )
 
 func TestNthBit(t *testing.T) {
-	data := 0xFEC8FEC8 // 1111 1110 1100 1000 1111 1110 1100 1000
+	var data uint32 = 0xFEC8FEC8 // 1111 1110 1100 1000 1111 1110 1100 1000
 
 	firstBit := util.NthBit(0, data)
 	secondBit := util.NthBit(7, data)
@@ -22,7 +22,7 @@ func TestNthBit(t *testing.T) {
 }
 
 func TestBitSlice(t *testing.T) {
-	data := 0xFEC8FEC8 // 1111 1110 1100 1000 1111 1110 1100 1000
+	var data uint32 = 0xFEC8FEC8 // 1111 1110 1100 1000 1111 1110 1100 1000
 
 	firstBit := util.BitSlice(0, 1, data)
 	if firstBit == 0b0 {
@@ -47,5 +47,14 @@ func TestBitSlice(t *testing.T) {
 	endSlice := util.BitSlice(29, 3, data)
 	if endSlice != 0b000 {
 		t.Fatalf("Slice should be 000, but was %b ", endSlice)
+	}
+}
+
+func TestByteArrayTouint32(t *testing.T) {
+	arr := []byte{0xFE, 0xC8}
+	arruint32 := util.ByteArrayTouint32(arr)
+
+	if arruint32 != 0xFEC8 {
+		t.Fatalf("Slice should be 65224, but was %b ", arruint32)
 	}
 }

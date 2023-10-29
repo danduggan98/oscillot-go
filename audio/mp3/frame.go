@@ -20,17 +20,18 @@ type Frame struct {
 	AncillaryData AncillaryData
 }
 
-func ParseFrame(data int) *Frame {
+// TODO - parse from byte stream
+func ParseFrame(data uint32) *Frame {
 	header := ParseHeader(data)
 
 	return &Frame{
-		Header:   *header,
+		Header:   *header, // 4 bytes
 		CRC:      *ParseCRC(data),
 		SideInfo: *ParseSideInfo(data, header.isStereo()),
 	}
 }
 
-func (f Frame) FrameLength() int {
+func (f Frame) FrameLength() uint32 {
 	ratio := f.Header.CalculateBitrate() / f.Header.CalculateSampleRate()
 	return 144*ratio + f.Header.PaddingBit
 }

@@ -2,6 +2,6 @@ package mp3
 
 type MainData struct{}
 
-func ParseMainData(data int) *MainData {
+func ParseMainData(data uint32) *MainData {
 	return nil
 }
