@@ -50,11 +50,44 @@ func TestBitSlice(t *testing.T) {
 	}
 }
 
-func TestByteArrayTouint32(t *testing.T) {
-	arr := []byte{0xFE, 0xC8}
-	arruint32 := util.ByteArrayTouint32(arr)
+func TestBytesToInt(t *testing.T) {
+	data := []byte{0xFE, 0xC8}
+	var result []uint32 = util.BytesToInt(data)
 
-	if arruint32 != 0xFEC8 {
-		t.Fatalf("Slice should be 65224, but was %b ", arruint32)
+	if len(result) != 1 {
+		t.Fatalf("Slice should have 1 int, but had %d ", len(result))
+	}
+	if result[0] != 0xFEC8 {
+		t.Fatalf("Slice should be [65224], but was %v ", result)
+	}
+
+	data = []byte{0xFE, 0xC8, 0xBA, 0x04}
+	result = util.BytesToInt(data)
+
+	if len(result) != 1 {
+		t.Fatalf("Slice should have 1 int, but had %d ", len(result))
+	}
+	if result[0] != 0xFEC8BA04 {
+		t.Fatalf("Slice should be [4274567684], but was %v ", result)
+	}
+
+	data = []byte{0xFE, 0xC8, 0xBA, 0x04, 0xAA, 0xBB, 0xCC, 0xDD}
+	result = util.BytesToInt(data)
+
+	if len(result) != 2 {
+		t.Fatalf("Slice should have 2 ints, but had %d ", len(result))
+	}
+	if result[0] != 0xFEC8BA04 || result[1] != 0xAABBCCDD {
+		t.Fatalf("Slice should be [4274567684 2864434397], but was %v ", result)
+	}
+
+	data = []byte{0xFE, 0xC8, 0xBA, 0x04, 0xAA, 0xBB, 0xCC, 0xDD, 0xEE}
+	result = util.BytesToInt(data)
+
+	if len(result) != 3 {
+		t.Fatalf("Slice should have 3 ints, but had %d ", len(result))
+	}
+	if result[0] != 0xFEC8BA04 || result[1] != 0xAABBCCDD || result[2] != 0xEE {
+		t.Fatalf("Slice should be [4274567684 2864434397 238], but was %v ", result)
 	}
 }

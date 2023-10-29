@@ -24,3 +24,21 @@ func BitSlice(start, len, data uint32) uint32 {
 	var mask uint32 = (1 << len) - 1
 	return bits & mask
 }
+
+// Convert an array of bytes to an array of ints
+func BytesToInt(data []byte) []uint32 {
+	result := make([]uint32, 0)
+	var next uint32
+
+	for i := 0; i < len(data); i += 4 {
+		next = 0
+
+		for j := 0; j < 4 && i+j < len(data); j++ {
+			next <<= 8
+			next += uint32(data[i+j])
+		}
+		result = append(result, next)
+	}
+
+	return result
+}

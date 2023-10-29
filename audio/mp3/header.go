@@ -39,7 +39,7 @@ var modeExtensionTable = [][]bool{
 
 // TODO - cross check this with the other sources
 type Header struct {
-	// Fixed value used as a searchable entry pouint32 to the stream (12 bits)
+	// Fixed value used as a searchable entry point to the stream (12 bits)
 	SyncWord uint32
 
 	// Specifies the MPEG version (1 bit)
@@ -71,14 +71,14 @@ type Header struct {
 
 	// Channel mode (2 bits)
 	//  - 00 = Stereo
-	//  - 01 = Jouint32 stereo
+	//  - 01 = Joint stereo
 	//  - 10 = Dual channel
 	//  - 11 = Single channel
 	Mode uint32
 
-	// Specifies which methods to use in jouint32 stereo mode (2 bits)
+	// Specifies which methods to use in joint stereo mode (2 bits)
 	//  - First bit = MS stereo on/off
-	//  - Second bit = uint32ensity stereo on/off
+	//  - Second bit = intensity stereo on/off
 	ModeExtension uint32
 
 	// Specifies if the file is copyrighted (1 bit)
