@@ -35,7 +35,7 @@ func BytesToInt(data []byte) []uint32 {
 
 		for j := 0; j < 4 && i+j < len(data); j++ {
 			next <<= 8
-			next += uint32(data[i+j])
+			next |= uint32(data[i+j])
 		}
 		result = append(result, next)
 	}
