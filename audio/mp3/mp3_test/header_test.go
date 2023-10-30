@@ -6,8 +6,8 @@ import (
 	"github.com/danduggan98/oscillot-go/audio/mp3"
 )
 
-var bits uint32 = 0xFFFBA040 // Example from MP3 Wikipedia article
-var h *mp3.Header = mp3.ParseHeader(bits)
+var data []byte = []byte{0xFF, 0xFB, 0xA0, 0x40} // Example from MP3 Wikipedia article
+var h *mp3.Header = mp3.ParseHeader(data)
 
 func TestParseHeader(t *testing.T) {
 	if h.SyncWord != 0b0111111111111 {

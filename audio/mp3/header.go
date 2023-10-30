@@ -95,7 +95,9 @@ type Header struct {
 	Emphasis uint32
 }
 
-func ParseHeader(bits uint32) *Header {
+func ParseHeader(data []byte) *Header {
+	var bits uint32 = util.BytesToInt(data)[0]
+
 	return &Header{
 		SyncWord:        util.BitSlice(0, 12, bits),
 		Version:         util.NthBit(12, bits),

@@ -20,12 +20,11 @@ type Frame struct {
 	AncillaryData AncillaryData
 }
 
-// TODO - parse from byte stream
-func ParseFrame(data uint32) *Frame {
-	header := ParseHeader(data)
+func ParseFrame(data []byte) *Frame {
+	header := ParseHeader(data) // TODO - parse first 4 bytes
 
 	return &Frame{
-		Header:   *header, // 4 bytes
+		Header:   *header,
 		CRC:      *ParseCRC(data),
 		SideInfo: *ParseSideInfo(data, header.isStereo()),
 	}

@@ -90,7 +90,9 @@ type SideInfo struct {
 }
 
 // TODO
-func ParseSideInfo(data uint32, stereo bool) *SideInfo {
+func ParseSideInfo(data []byte, stereo bool) *SideInfo {
+	//bits := util.BytesToInt(data)
+
 	if stereo {
 		return &SideInfo{}
 	} else {

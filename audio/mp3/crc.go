@@ -7,7 +7,9 @@ type CRC struct {
 	CorrectionBits uint32
 }
 
-func ParseCRC(bits uint32) *CRC { // TODO
+func ParseCRC(data []byte) *CRC {
+	var bits uint32 = util.BytesToInt(data)[0]
+
 	return &CRC{
 		CorrectionBits: util.BitSlice(0, 16, bits),
 	}
