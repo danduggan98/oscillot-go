@@ -7,6 +7,15 @@ import (
 	"github.com/danduggan98/oscillot-go/util"
 )
 
+func TestLeftAlignBits(t *testing.T) {
+	var data uint32 = 0xAA // 1010 1010
+	leftAlignedBits := util.LeftAlignBits(data)
+
+	if leftAlignedBits != 0xAA000000 {
+		t.Fatalf("Bits should be 0xAA000000, but got %X", leftAlignedBits)
+	}
+}
+
 func TestNthBit(t *testing.T) {
 	var data uint32 = 0xFEC8FEC8 // 1111 1110 1100 1000 1111 1110 1100 1000
 
@@ -22,7 +31,7 @@ func TestNthBit(t *testing.T) {
 }
 
 func TestNthBitSingleByte(t *testing.T) {
-	var data uint32 = 0xAA // 1010 1011
+	var data uint32 = 0xAA // 1010 1010
 
 	firstBit := util.NthBit(0, data)
 	secondBit := util.NthBit(1, data)

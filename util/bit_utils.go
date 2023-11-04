@@ -1,12 +1,24 @@
 package util
 
+// Shift significant bits to the left so we can slice them
+func LeftAlignBits(data uint32) uint32 {
+	data_copy := data
+	i := 0
+
+	for data_copy != 0 && i < 32 {
+		data_copy >>= 1
+		i++
+	}
+	return data << (32 - i)
+}
+
 // Extract a particular bit from an integer
 func NthBit(n, data uint32) uint32 {
 	if n > 31 {
 		panic("index out of range")
 	}
 
-	bit := data >> (31 - n)
+	bit := LeftAlignBits(data) >> (31 - n)
 	return bit & 0b1
 }
 
@@ -20,7 +32,7 @@ func BitSlice(start, len, data uint32) uint32 {
 		return NthBit(start, data)
 	}
 
-	bits := data >> (32 - end)
+	bits := LeftAlignBits(data) >> (32 - end)
 	var mask uint32 = (1 << len) - 1
 	return bits & mask
 }
