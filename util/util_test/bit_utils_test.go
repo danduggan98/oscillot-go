@@ -21,6 +21,20 @@ func TestNthBit(t *testing.T) {
 	}
 }
 
+func TestNthBitSingleByte(t *testing.T) {
+	var data uint32 = 0xAA // 1010 1011
+
+	firstBit := util.NthBit(0, data)
+	secondBit := util.NthBit(1, data)
+	thirdBit := util.NthBit(4, data)
+	fourthBit := util.NthBit(5, data)
+
+	if firstBit == 0 || secondBit == 1 || thirdBit == 0 || fourthBit == 1 {
+		givenBits := fmt.Sprintf("%d %d %d %d", firstBit, secondBit, thirdBit, fourthBit)
+		t.Fatalf("Bits should be 1 0 1 0, but got " + givenBits)
+	}
+}
+
 func TestBitSlice(t *testing.T) {
 	var data uint32 = 0xFEC8FEC8 // 1111 1110 1100 1000 1111 1110 1100 1000
 
