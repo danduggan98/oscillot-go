@@ -38,7 +38,7 @@ func BitSlice(start, len, data uint32) uint32 {
 }
 
 // Convert an array of bytes to an array of ints
-func BytesToInt(data []byte) []uint32 {
+func BytesToInts(data []byte) []uint32 {
 	result := make([]uint32, 0)
 	var next uint32
 

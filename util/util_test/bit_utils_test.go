@@ -73,9 +73,9 @@ func TestBitSlice(t *testing.T) {
 	}
 }
 
-func TestBytesToInt(t *testing.T) {
+func TestBytesToInts(t *testing.T) {
 	data := []byte{0xFE, 0xC8}
-	var result []uint32 = util.BytesToInt(data)
+	var result []uint32 = util.BytesToInts(data)
 
 	if len(result) != 1 {
 		t.Fatalf("Slice should have 1 int, but had %d ", len(result))
@@ -85,7 +85,7 @@ func TestBytesToInt(t *testing.T) {
 	}
 
 	data = []byte{0xFE, 0xC8, 0xBA, 0x04}
-	result = util.BytesToInt(data)
+	result = util.BytesToInts(data)
 
 	if len(result) != 1 {
 		t.Fatalf("Slice should have 1 int, but had %d ", len(result))
@@ -95,7 +95,7 @@ func TestBytesToInt(t *testing.T) {
 	}
 
 	data = []byte{0xFE, 0xC8, 0xBA, 0x04, 0xAA, 0xBB, 0xCC, 0xDD}
-	result = util.BytesToInt(data)
+	result = util.BytesToInts(data)
 
 	if len(result) != 2 {
 		t.Fatalf("Slice should have 2 ints, but had %d ", len(result))
@@ -105,7 +105,7 @@ func TestBytesToInt(t *testing.T) {
 	}
 
 	data = []byte{0xFE, 0xC8, 0xBA, 0x04, 0xAA, 0xBB, 0xCC, 0xDD, 0xEE}
-	result = util.BytesToInt(data)
+	result = util.BytesToInts(data)
 
 	if len(result) != 3 {
 		t.Fatalf("Slice should have 3 ints, but had %d ", len(result))
