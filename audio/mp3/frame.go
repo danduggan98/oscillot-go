@@ -10,7 +10,7 @@ type Frame struct {
 	// Optional error correction bits (0 | 16 bits)
 	CRC CRC
 
-	// uhhh
+	// ... (17 | 32 bits)
 	SideInfo SideInfo
 
 	// Audio data
@@ -21,12 +21,19 @@ type Frame struct {
 }
 
 func ParseFrame(data []byte) *Frame {
-	header := ParseHeader(data) // TODO - parse first 4 bytes
+	header := ParseHeader(data[:4]) // 4 bytes
+	crc := ParseCRC(data[4:6])      // 2 bytes
+
+	var siEnd = 39 // 32 bytes
+	if header.isStereo() {
+		siEnd = 24 // 17 bytes
+	}
+	sideInfo := ParseSideInfo(data[6:siEnd], header.isStereo())
 
 	return &Frame{
 		Header:   *header,
-		CRC:      *ParseCRC(data),
-		SideInfo: *ParseSideInfo(data, header.isStereo()),
+		CRC:      *crc,
+		SideInfo: *sideInfo,
 	}
 }
 
