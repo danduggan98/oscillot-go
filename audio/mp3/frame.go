@@ -24,12 +24,14 @@ func ParseFrame(data []byte) *Frame {
 	header := ParseHeader(data[:4]) // 4 bytes
 	crc := ParseCRC(data[4:6])      // 2 bytes
 
-	var siEnd = 39 // 32 bytes
+	var siLastIndex = 39 // 32 bytes
 	if header.isStereo() {
-		siEnd = 24 // 17 bytes
+		siLastIndex = 24 // 17 bytes
 	}
-	sideInfo := ParseSideInfo(data[6:siEnd], header.isStereo())
+	sideInfo := ParseSideInfo(data[6:siLastIndex], header.isStereo())
 
+	// TODO - main data
+	// TODO - anc. data
 	return &Frame{
 		Header:   *header,
 		CRC:      *crc,

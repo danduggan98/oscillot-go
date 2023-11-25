@@ -1,5 +1,12 @@
 package mp3
 
+import "github.com/danduggan98/oscillot-go/util"
+
+type SCSFI struct {
+	ShareBit        uint32
+	ScalefactorBand uint32
+}
+
 type SideInfoGranule struct {
 	// Number of bits used for scalefactors and encoded data
 	// - Mono = 12 bits
@@ -82,20 +89,30 @@ type SideInfo struct {
 
 	PrivateBits uint32
 
-	SCSFI uint32
+	SCSFI SCSFI
 
-	Group1 uint32
+	Group1 SideInfoGranule
 
-	Group2 uint32
+	Group2 SideInfoGranule
 }
 
 // TODO
 func ParseSideInfo(data []byte, stereo bool) *SideInfo {
-	//bits := util.BytesToInt(data)
+	bits := util.BytesToInts(data)
+	mainDataPtr := util.BitSlice(0, 9, bits[0])
 
+	// scfsi = scfsi bit + scfsci band
 	if stereo {
-		return &SideInfo{}
+		return &SideInfo{
+			MainDataStart: mainDataPtr,
+			PrivateBits:   util.BitSlice(9, 3, bits[0]),
+			// TODO
+		}
 	} else {
-		return &SideInfo{}
+		return &SideInfo{
+			MainDataStart: mainDataPtr,
+			PrivateBits:   util.BitSlice(9, 5, bits[0]),
+			// TODO
+		}
 	}
 }
